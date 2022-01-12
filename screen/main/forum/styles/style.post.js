@@ -32,11 +32,25 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   topNameContainer: {
-    width: "80%",
+    width: "100%",
     padding: 10,
+    flexDirection: "row",
+  },
+  dots: {
+    position: "absolute",
+    right: 50,
+    top: 10,
   },
   nameTxt: {
     fontWeight: "700",
+  },
+  reportContainer: {
+    backgroundColor: "#cccc",
+    position: "absolute",
+    top: 40,
+    right: 60,
+    width: 80,
+    borderRadius: 5,
   },
   body: {
     width: "100%",

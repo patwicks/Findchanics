@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     resizeMode: "contain",
-    width: 200,
+    width: 300,
     height: 100,
   },
   headText: {

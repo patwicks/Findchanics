@@ -63,7 +63,7 @@ export default function StoreList({ route, navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {stores.map((store, index) => {
+        {stores?.map((store, index) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <View style={styles.imageContainer}>

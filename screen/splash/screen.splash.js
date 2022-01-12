@@ -19,9 +19,10 @@ export default function SplashScreen({ navigation }) {
           style={styles.logo}
           source={require("../../assets/images/find-logo.png")}
         />
-        <Text style={styles.headText}>Find-Talyer App</Text>
+        <Text style={styles.headText}>Mechanics Finder App</Text>
         <Text style={styles.subText}>
-          Find Auto repair shops and services during emergency vehicle breakdown
+          Find Mechanics, Auto repair shops and services during emergency
+          vehicle breakdown
         </Text>
       </View>
       <TouchableOpacity

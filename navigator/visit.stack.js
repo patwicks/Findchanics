@@ -6,7 +6,6 @@ import VisitStoreScreen from "../screen/main/home/component.visit.screen";
 import RequestServiceScreen from "../screen/main/home/component.request.service.screen";
 import RequestStatusScreen from "../screen/main/home/component.request.status.screen";
 import StoreGalleryScreen from "../screen/main/home/component.gallery.screen";
-import LicenseScreen from "../screen/main/home/component.license.screen";
 import FeedbackScreen from "../screen/main/home/component.feedback.screen";
 import CreateFeedbackScreen from "../screen/main/home/component.create.feedback.screen";
 import SearchScreen from "../screen/main/home/component.search.screen";
@@ -77,17 +76,6 @@ const VisitStoreStack = () => {
           headerBackVisible: true,
           headerTransparent: false,
           headerTitle: "Gallery",
-          headerStyle: { backgroundColor: "#f2f2f2" },
-          headerShadowVisible: true,
-        }}
-      />
-      <Stack.Screen
-        name="License"
-        component={LicenseScreen}
-        options={{
-          headerBackVisible: true,
-          headerTransparent: false,
-          headerTitle: "Store License/Permit",
           headerStyle: { backgroundColor: "#f2f2f2" },
           headerShadowVisible: true,
         }}

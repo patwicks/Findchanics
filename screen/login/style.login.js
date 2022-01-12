@@ -18,9 +18,12 @@ const FormStyle = StyleSheet.create({
   },
   loginImg: {
     alignSelf: "center",
+    width: 200,
+    height: 130,
+    resizeMode: "contain",
   },
   headerLogo: {
-    width: 90,
+    width: 250,
     height: 50,
     resizeMode: "contain",
   },

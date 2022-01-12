@@ -109,7 +109,7 @@ export default function RegisterScreen({ navigation }) {
               contactNo: "",
               isValidated: false,
               profileURL:
-                "https://res.cloudinary.com/dxcbmlxoe/image/upload/v1630030578/driver_profile/default-profile_o7dena.png",
+                "https://res.cloudinary.com/dxcbmlxoe/image/upload/v1641625517/driver_profile/profile_default_driver_f1qdtn.png",
             }}
             validationSchema={RegisterSchema}
             onSubmit={(values, actions) => {

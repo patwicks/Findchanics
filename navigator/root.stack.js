@@ -39,6 +39,7 @@ const HomeBottomTabNavigator = () => {
         headerTitle: "",
         headerTransparent: true,
       }}
+      initialRouteName="HOME"
     >
       <BottomTabs.Screen
         name="HOME"

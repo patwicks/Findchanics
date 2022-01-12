@@ -6,6 +6,7 @@ import {
   Image,
   Modal,
   TextInput,
+  Alert,
 } from "react-native";
 import API from "../../../api/api";
 
@@ -13,6 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 // local
 import styles from "./styles/style.post";
 import { ScrollView } from "react-native-gesture-handler";
@@ -29,6 +32,10 @@ export default function PostForum({ allPost, currentUser }) {
   const [numberOfComments, setNumberOfComments] = useState(null);
 
   const [numLine, setNumLine] = useState(3);
+
+  // button dots
+  const [isClicked, setIsClicked] = useState(false);
+  const [reportPostId, setReportPostId] = useState(null);
 
   // current commenter data to be send
 
@@ -78,6 +85,39 @@ export default function PostForum({ allPost, currentUser }) {
     }
   };
 
+  // Report a post
+  const reportAPost = async () => {
+    try {
+      if (reportPostId !== null) {
+        const res = await API.post("/api/report/", {
+          reportPostId: reportPostId,
+        });
+
+        if (res) {
+          reportAlert();
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // alert for reporting
+  const reportAlert = () => {
+    Alert.alert(
+      "Successfully reported!",
+      "Post will review by the admin. Thank you!",
+      [
+        {
+          text: "Ok",
+          onPress: () => null,
+          style: "cancel",
+        },
+      ]
+    );
+    return true;
+  };
+
   return (
     <>
       {allPost?.map((post, index) => {
@@ -95,8 +135,46 @@ export default function PostForum({ allPost, currentUser }) {
                 </View>
               </View>
               <View style={styles.topNameContainer}>
-                <Text style={styles.nameTxt}>{post.userName}</Text>
-                <FontAwesome name="globe" size={18} color="#999999" />
+                <View>
+                  <Text style={styles.nameTxt}>{post.userName}</Text>
+                  <FontAwesome name="globe" size={18} color="#999999" />
+                </View>
+                <TouchableOpacity
+                  style={styles.dots}
+                  onPress={() => {
+                    setIsClicked(!isClicked);
+                    setReportPostId(post._id);
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="dots-vertical"
+                    size={24}
+                    color="black"
+                  />
+                </TouchableOpacity>
+                <View
+                  style={[
+                    styles.reportContainer,
+                    { opacity: isClicked ? 1 : 0 },
+                  ]}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      setIsClicked(false);
+                      reportAPost();
+                    }}
+                    style={{
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "row",
+                      padding: 5,
+                    }}
+                  >
+                    <MaterialIcons name="report" size={18} color="red" />
+                    <Text style={{ fontSize: 10 }}>Report</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
             {/* body image /text*/}

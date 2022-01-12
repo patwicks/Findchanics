@@ -29,6 +29,7 @@ export default function RequestServiceScreen({ route, navigation }) {
   const inputRef = createRef();
   // params
   const { storeData, userCurrentLat, userCurrentLong } = route.params;
+
   const {
     _id: store_id,
     storeName,
@@ -132,7 +133,6 @@ export default function RequestServiceScreen({ route, navigation }) {
       formData.append("driverLongitude", userCurrentLong);
       formData.append("statementMessage", statementMessage);
       formData.append("transactionStatus", transactionStatus);
-
       const res = await API.post("/api/service/request", formData, {
         headers: {
           Accept: "application/json",
@@ -149,7 +149,7 @@ export default function RequestServiceScreen({ route, navigation }) {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
     }
   };
 

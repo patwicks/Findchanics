@@ -123,6 +123,26 @@ const Styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Color.level4,
   },
+  serviceDoneContainer: {
+    height: 100,
+    borderRadius: 10,
+    marginVertical: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#00ff99",
+  },
+  serviceDoneText: {
+    fontSize: 10,
+    color: "#ffffff",
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 0.5
+  },
+  numberServiceDone: {
+    fontSize: 40,
+    fontWeight: "700",
+    color: "#ffffff",
+  },
 });
 
 export default Styles;

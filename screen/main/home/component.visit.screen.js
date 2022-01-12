@@ -65,7 +65,6 @@ export default function VisitStoreScreen({ navigation, route }) {
     }
     return () => (unmounted = true);
   }, []);
-  console.log(phoneNumber);
   return (
     <>
       {isLoading ? (
@@ -99,7 +98,6 @@ export default function VisitStoreScreen({ navigation, route }) {
                       </View>
                     </ImageBackground>
                   </View>
-
                   <View style={Styles.itemStoreInformation}>
                     <Text style={Styles.itemStoreName}>{item.storeName}</Text>
                     <View style={Styles.btnContainer}>
@@ -136,29 +134,38 @@ export default function VisitStoreScreen({ navigation, route }) {
                       </Text>
                     </TouchableOpacity>
                     <Text style={Styles.itemHeadText}> Store Information</Text>
-                    <TouchableOpacity
-                      style={Styles.itemContent}
-                      onPress={() =>
-                        navigation.navigate("License", {
-                          permit: item.permit,
-                        })
-                      }
-                    >
+                    <View style={Styles.serviceDoneContainer}>
+                      <Text style={Styles.serviceDoneText}>Service Done</Text>
+                      <Text style={Styles.numberServiceDone}>{item.serviceDone}</Text>
+                    </View>
+                    <View style={Styles.itemContent}>
                       <MaterialCommunityIcons
                         name="license"
                         size={24}
-                        color="#404040"
+                        color={
+                          item.fullyVerified === true ? "#33ff77" : "#ff3333"
+                        }
                       />
-                      <Text
-                        style={{
-                          marginLeft: 10,
-                          color: "#0073e6",
-                          textDecorationLine: "underline",
-                        }}
-                      >
-                        License
-                      </Text>
-                    </TouchableOpacity>
+                      {item.fullyVerified === true ? (
+                        <Text
+                          style={{
+                            marginLeft: 10,
+                            fontWeight: "600",
+                          }}
+                        >
+                          Verified
+                        </Text>
+                      ) : (
+                        <Text
+                          style={{
+                            marginLeft: 10,
+                            fontWeight: "600",
+                          }}
+                        >
+                          Unverified
+                        </Text>
+                      )}
+                    </View>
                     <View style={Styles.itemContent}>
                       <MaterialIcons name="store" size={24} color="#404040" />
                       <Text style={{ marginLeft: 10 }} numberOfLines={1}>
