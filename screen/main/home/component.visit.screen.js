@@ -11,8 +11,9 @@ import {
 } from "react-native";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { Rating } from "react-native-ratings";
-import call from "react-native-phone-call";
+import * as geolib from "geolib";
 
+import call from "react-native-phone-call";
 // icons
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -49,7 +50,6 @@ export default function VisitStoreScreen({ navigation, route }) {
       if (parsedData !== null) {
         setStoreData(parsedData);
         setIsLoading(false);
-        console.log(`Visit: Store Data of has fetched!`);
         return;
       } else {
         console.log("there is no data here");
@@ -65,6 +65,7 @@ export default function VisitStoreScreen({ navigation, route }) {
     }
     return () => (unmounted = true);
   }, []);
+
   return (
     <>
       {isLoading ? (
@@ -82,6 +83,16 @@ export default function VisitStoreScreen({ navigation, route }) {
           {storeData
             .filter((store) => store._id === storeID)
             .map((item) => {
+              const distance = geolib.getDistance(
+                {
+                  latitude: userCurrentLat,
+                  longitude: userCurrentLong,
+                },
+                {
+                  latitude: item.latitude,
+                  longitude: item.longitude,
+                }
+              );
               return (
                 <View key={item._id}>
                   <View style={Styles.coverPhotoContainer}>
@@ -136,8 +147,21 @@ export default function VisitStoreScreen({ navigation, route }) {
                     <Text style={Styles.itemHeadText}> Store Information</Text>
                     <View style={Styles.serviceDoneContainer}>
                       <Text style={Styles.serviceDoneText}>Service Done</Text>
-                      <Text style={Styles.numberServiceDone}>{item.serviceDone}</Text>
+                      <Text style={Styles.numberServiceDone}>
+                        {item.serviceDone}
+                      </Text>
                     </View>
+                    <View style={Styles.itemContent}>
+                      <MaterialCommunityIcons
+                        name="map-marker-distance"
+                        size={24}
+                        color="#404040"
+                      />
+                      <Text style={{ marginLeft: 10 }} numberOfLines={1}>
+                        Distance: {geolib.convertDistance(distance, "km")} km
+                      </Text>
+                    </View>
+
                     <View style={Styles.itemContent}>
                       <MaterialCommunityIcons
                         name="license"

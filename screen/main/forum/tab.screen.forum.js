@@ -27,6 +27,8 @@ export default function ForumScreen({ navigation }) {
   const [allPost, setAllPost] = useState([]);
   const [id, setId] = useState(null);
   const [currentUser, setCurrentUser] = useState();
+  // lisloading
+  const [isLoading, setIsloading] = useState(true);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -58,6 +60,7 @@ export default function ForumScreen({ navigation }) {
           );
         });
         setAllPost(dataSort.reverse());
+        setIsloading(false);
       }
     } catch (error) {
       console.log(error.response);
@@ -118,7 +121,35 @@ export default function ForumScreen({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <PostForum allPost={allPost} currentUser={currentUser} />
+        {isLoading ? (
+          <View style={styles.postContainer}>
+            {/* top */}
+            <View style={styles.top}>
+              <View style={styles.profileBox}>
+                <View style={styles.profileContainer}>
+                  <Image
+                    style={{ width: "100%", height: "100%" }}
+                    resizeMode="cover"
+                  />
+                </View>
+              </View>
+            </View>
+            {/* body */}
+            <View style={styles.body}></View>
+            {/* Bottom */}
+            <View style={styles.bottom}>
+              <View style={styles.commentClick}>
+                <View style={styles.commentInputBox}>
+                  <Text style={{ color: "#e6e6e6", fontSize: 12 }}>
+                    type comment here...
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <PostForum allPost={allPost} currentUser={currentUser} />
+        )}
       </ScrollView>
     </View>
   );
@@ -184,5 +215,63 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     flexDirection: "row",
+  },
+
+  // preloading
+  postContainer: {
+    overflow: "hidden",
+    marginBottom: 15,
+    backgroundColor: "#e6e6e6",
+  },
+  top: {
+    backgroundColor: "#ffffff",
+    width: "100%",
+    height: 60,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    borderBottomWidth: 1,
+    borderColor: "#d9d9d9",
+  },
+  profileBox: {
+    width: "20%",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+  },
+  profileContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
+    borderWidth: 1,
+    borderColor: "#dddddd",
+    backgroundColor: "#cccccc",
+    overflow: "hidden",
+  },
+  body: {
+    width: "100%",
+    height: 500,
+    maxHeight: 500,
+    backgroundColor: "#e6e6e6",
+  },
+  bottom: {
+    width: "100%",
+    borderColor: "#e6e6e6",
+    borderWidth: 0.1,
+    backgroundColor: "#ffffff",
+  },
+  commentClick: {
+    width: "100%",
+    height: 60,
+    padding: 5,
+  },
+  commentInputBox: {
+    borderWidth: 1,
+    borderColor: "#d9d9d9",
+    borderRadius: 45,
+    height: "90%",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 20,
   },
 });

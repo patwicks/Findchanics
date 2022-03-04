@@ -11,7 +11,7 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Rating } from "react-native-ratings";
 import * as Location from "expo-location";
-
+import * as geolib from "geolib";
 // icons
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,7 +22,7 @@ import API from "../../../api/api";
 import { mapStyle, standardMapStyle } from "./maps/CustomMapStyle";
 
 export default function HomeTabScreen({ navigation }) {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [storeID, setStoreID] = useState();
 
   // Toggles
@@ -59,6 +59,8 @@ export default function HomeTabScreen({ navigation }) {
         "storeLocations",
         JSON.stringify(result.data)
       );
+
+      // Working with W3C Geolocation API
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +129,10 @@ export default function HomeTabScreen({ navigation }) {
           <TouchableOpacity
             style={Styles.search}
             onPress={() => {
-              navigation.navigate("Search");
+              navigation.navigate("Search", {
+                currentLat: currentLat,
+                currentLong: currentLong,
+              });
             }}
           >
             <Ionicons name="search-outline" size={20} color="#ffffff" />
@@ -199,6 +204,16 @@ export default function HomeTabScreen({ navigation }) {
               {data
                 ?.filter((store) => store._id === storeID)
                 .map((item) => {
+                  const distance = geolib.getDistance(
+                    {
+                      latitude: currentLat,
+                      longitude: currentLong,
+                    },
+                    {
+                      latitude: item.latitude,
+                      longitude: item.longitude,
+                    }
+                  );
                   return (
                     <View key={item._id}>
                       <Image
@@ -222,6 +237,9 @@ export default function HomeTabScreen({ navigation }) {
                             ({item.rating})
                           </Text>
                         </View>
+                        <Text>
+                          Distance: {geolib.convertDistance(distance, "km")} km{" "}
+                        </Text>
 
                         <TouchableOpacity
                           style={Styles.btnVisitStore}

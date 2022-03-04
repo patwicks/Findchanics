@@ -12,6 +12,7 @@ import {
 
 // icons
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 const winWidth = Dimensions.get("screen").width;
 const winHeight = Dimensions.get("screen").height;
@@ -21,26 +22,39 @@ export default function StoreGalleryScreen({ route }) {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          alignItems: "center",
-          flexDirection: "row",
-          flexWrap: "wrap",
-        }}
-      >
-        {gallery?.map((image, index) => {
-          return (
-            <TouchableOpacity
-              key={index}
-              style={styles.imageContainer}
-              onPress={() => setModalOpen(true)}
-            >
-              <Image style={styles.imagePermit} source={{ uri: image }} />
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
+      {gallery.length !== 0 ? (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: "center",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          {gallery?.map((image, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                style={styles.imageContainer}
+                onPress={() => setModalOpen(true)}
+              >
+                <Image style={styles.imagePermit} source={{ uri: image }} />
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      ) : (
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            height: winHeight / 1.5,
+          }}
+        >
+          <Text style={{ color: "#999999" }}>No image available</Text>
+          <Entypo name="folder-images" size={30} color="#cccccc" />
+        </View>
+      )}
 
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <View style={styles.modalContainer}>

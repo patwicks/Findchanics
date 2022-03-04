@@ -8,11 +8,18 @@ import {
   TextInput,
   RefreshControl,
   ActivityIndicator,
+  Text,
+  Dimensions,
 } from "react-native";
 import API from "../../../api/api";
 import "react-native-gesture-handler";
 import Color from "../../../config/Color";
 import PostedFeedback from "./sub.component.posted.feedback";
+import { MaterialIcons } from "@expo/vector-icons";
+
+// screen hieght
+
+const sHeight = Dimensions.get("screen").height;
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -21,7 +28,6 @@ const wait = (timeout) => {
 export default function FeedbackScreen({ navigation, route }) {
   // params
   const { data, store_id } = route.params;
-  const { driverProfile } = data;
   //  states
   const [refreshing, setRefreshing] = useState(false);
   const [feedbackList, setFeedbackList] = useState([]);
@@ -63,7 +69,7 @@ export default function FeedbackScreen({ navigation, route }) {
             <Image
               style={{ width: "100%", height: "100%" }}
               resizeMode="cover"
-              source={{ uri: driverProfile }}
+              source={{ uri: data?.driverProfile }}
             />
           </View>
         </View>
@@ -91,7 +97,18 @@ export default function FeedbackScreen({ navigation, route }) {
           }
         >
           {isLoading ? (
-            <ActivityIndicator size="large" color="#111111" />
+            <ActivityIndicator size="small" color="#111111" />
+          ) : feedbackList.length === 0 ? (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                height: sHeight/1.5
+              }}
+            >
+              <Text style={{ color: "#999999" }}>No feedback available</Text>
+              <MaterialIcons name="feedback" size={30} color="#cccccc" />
+            </View>
           ) : (
             <PostedFeedback feedbackList={feedbackList} />
           )}

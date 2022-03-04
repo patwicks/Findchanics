@@ -21,6 +21,7 @@
     "expo-location": "^12.1.2",
     "expo-status-bar": "~1.0.4",
     "formik": "^2.2.9",
+    "geolib": "^3.3.3",
     "moment": "^2.29.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",

@@ -11,12 +11,14 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
+import * as geolib from "geolib";
 import API from "../../../api/api";
 
 // icons
 import { AntDesign } from "@expo/vector-icons";
 
-export default function SearchScreen({ navigation }) {
+export default function SearchScreen({ navigation, route }) {
+  const { currentLat, currentLong } = route.params;
   const inputRef = createRef();
   const [inputSearch, setInputSearch] = useState("");
   const [result, setResult] = useState([]);
@@ -29,6 +31,7 @@ export default function SearchScreen({ navigation }) {
   useEffect(() => {
     if (inputSearch.length > 0) {
       handleSearch();
+      setIsLoading(true);
     }
     if (inputSearch.length <= 0) {
       setResult([]);
@@ -89,30 +92,30 @@ export default function SearchScreen({ navigation }) {
             <Text
               style={styles.suggestedServicesText}
               onPress={() => {
-                setInputSearch("tune-up");
+                setInputSearch("chassis");
               }}
             >
-              tune up
+              chassis
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.suggestedServices}>
             <Text
               style={styles.suggestedServicesText}
               onPress={() => {
-                setInputSearch("brake service");
+                setInputSearch("tint");
               }}
             >
-              brake service
+              tint
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.suggestedServices}>
             <Text
               style={styles.suggestedServicesText}
               onPress={() => {
-                setInputSearch("steering");
+                setInputSearch("balancing");
               }}
             >
-              steering
+              balancing
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.suggestedServices}>
@@ -153,35 +156,62 @@ export default function SearchScreen({ navigation }) {
           showsVerticalScrollIndicator={false}
           style={{ flexGrow: 1 }}
         >
-          {result?.map((res, index) => {
-            return (
-              <TouchableOpacity
-                style={styles.resultContainer}
-                key={index}
-                onPress={() => {
-                  navigation.navigate("Visit", {
-                    storeID: res._id,
-                    userCurrentLat: res.latitude,
-                    userCurrentLong: res.longitude,
-                  });
-                }}
-              >
-                <View style={styles.left}>
-                  <View style={styles.circleContainer}>
-                    <Image
-                      style={{ width: "100%", height: "100%" }}
-                      resizeMode="cover"
-                      source={{ uri: res.profileURL }}
-                    />
+          {result.length !== 0 ? (
+            result?.map((res, index) => {
+              const distance = geolib.getDistance(
+                {
+                  latitude: currentLat,
+                  longitude: currentLong,
+                },
+                {
+                  latitude: res.latitude,
+                  longitude: res.longitude,
+                }
+              );
+              return (
+                <TouchableOpacity
+                  style={styles.resultContainer}
+                  key={index}
+                  onPress={() => {
+                    navigation.navigate("Visit", {
+                      storeID: res._id,
+                      userCurrentLat: currentLat,
+                      userCurrentLong: currentLong,
+                    });
+                  }}
+                >
+                  <View style={styles.left}>
+                    <View style={styles.circleContainer}>
+                      <Image
+                        style={{ width: "100%", height: "100%" }}
+                        resizeMode="cover"
+                        source={{ uri: res.profileURL }}
+                      />
+                    </View>
                   </View>
-                </View>
-                <View style={styles.right}>
-                  <Text style={styles.storeName}>{res.storeName}</Text>
-                  <Text style={styles.subInfo}>{res.storeAddress}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+                  <View style={styles.right}>
+                    <Text style={styles.storeName}>{res.storeName}</Text>
+                    <Text style={styles.subInfo}>{res.storeAddress}</Text>
+                    <Text style={styles.subInfo}>
+                      Distance: {geolib.convertDistance(distance, "km")} km
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })
+          ) : (
+            <View>
+              {inputSearch === "" ? (
+                <Text style={{ textAlign: "center", color: "#cccccc" }}>
+                  FINDCHANICS
+                </Text>
+              ) : (
+                <Text style={{ textAlign: "center", color: "#cccccc" }}>
+                  service not found
+                </Text>
+              )}
+            </View>
+          )}
         </ScrollView>
       </View>
     </TouchableWithoutFeedback>

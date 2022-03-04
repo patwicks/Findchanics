@@ -59,7 +59,7 @@ const Styles = StyleSheet.create({
   },
   storeCoverPhoto: {
     width: "100%",
-    height: "40%",
+    height: "30%",
     resizeMode: "cover",
   },
   itemDetails: {
@@ -89,12 +89,10 @@ const Styles = StyleSheet.create({
   },
   btnVisitStore: {
     borderRadius: 5,
-    //  borderWidth:2,
     width: "100%",
-    //  borderColor: Color.primary,
     padding: 5,
     backgroundColor: Color.secondary,
-    marginTop: 15,
+    marginTop: 10,
   },
   btnVisitText: {
     color: Color.white,

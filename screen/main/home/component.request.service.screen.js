@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   },
   storeDetailsContainer: {
     width: "100%",
-    height: 110,
+    height: 120,
     backgroundColor: "#e6e6e6",
     marginBottom: 15,
     flexDirection: "row",
