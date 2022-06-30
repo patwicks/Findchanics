@@ -17,8 +17,3 @@ It is an android application that enables a user to find auto mechanics and requ
   <img src="https://user-images.githubusercontent.com/83263201/156687986-04dac61a-c3f8-4711-82e6-0b9903b1c978.jpg" width="200" height="300">
 </p>
 
-## Contributors
-
-- [Raymond Lorenzo](https://github.com/lianagi)
-- [Ariel Nicdao](https://github.com/Ayeah21)
-- [Philip Pangilinan](https://www.facebook.com/philip.taruc)
